@@ -45,9 +45,19 @@ Future<void> deleteMyAccount(BuildContext context) async {
       await user.delete();
       // Logging his out 
       await FirebaseAuth.instance.signOut();
+      if(context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Account deleted successfully."))
+        );
+      }
   } on FirebaseAuthException catch (e) {
      if (e.code == 'requires-recent-login') {
       print("User needs to re-authenticate (log out and log back in) before deleting account.");
+      if(context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please log out and log back in to delete your account."), backgroundColor: Colors.red,)
+        );
+      }
      }
   } catch(e) {
     print("Error deleting account: $e");
@@ -61,11 +71,44 @@ Future<void> deleteMyAccount(BuildContext context) async {
       title: Center(child: Text('GAMMA',
       style: Theme.of(context).textTheme.titleLarge,)) ,
       actions: [
-        IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: () {
-            deleteMyAccount(context);
+        PopupMenuButton<String>(
+          onSelected: (value) async {
+            if (value == 'logout') {
+              await FirebaseAuth.instance.signOut();
+            }
+            else if (value == 'delete') {
+              showDialog(context: context,
+               builder: (context) => AlertDialog(
+                title: const Text("Delete Account"),
+                content: const Text("Are you sure? This will peramanently delete your data and cannot be undone."),
+                actions: [
+                  TextButton(onPressed: () => Navigator.pop(context),
+                   child: const Text("Cancel")
+                   ),
+                   TextButton( onPressed: () {
+                    Navigator.pop(context);
+                    deleteMyAccount(context);
+                   }, 
+                   child: const Text("Delete", style: TextStyle(color: Colors.red)),
+                   ),
+                ],
+               )
+               );
+            }
           },
+          itemBuilder: (BuildContext context) {
+            return const [
+              PopupMenuItem(
+                value: 'logout',
+                child: Text("Log Out"),
+                ),
+              PopupMenuItem(
+                value: 'delete',
+                child: Text("Delete Account", style: TextStyle(color: Colors.red),)
+                )
+            ];
+          }
+
         )
       ],
     ),

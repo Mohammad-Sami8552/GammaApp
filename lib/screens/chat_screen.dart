@@ -164,7 +164,6 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                           child: Text(
                             data['message'],
-                            // style: TextStyle(color: textColor),
                           ),
                         ),
                       );

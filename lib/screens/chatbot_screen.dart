@@ -47,7 +47,7 @@ class _MetaAIScreenState extends State<MetaAIScreen> {
       };
 
       var body = jsonEncode({
-        "model": "llama-3.1-8b-instant",
+        "model": "openai/gpt-oss-20b",
         "messages": history,
         'temperature': 0.7,
       });
