@@ -8,9 +8,6 @@ GammaApp is a cross-platform mobile application that combines seamless text chat
 * **Background Notifications:** Firebase Cloud Messaging (FCM) wakes the app for incoming calls even when terminated.
 * **Secure Auth & Database:** User management and real-time chat powered by Firebase Auth and Cloud Firestore.
 
-## 📸 App Gallery
-*(Pro-Tip: Record a 10-second screen recording of you chatting with the AI or making a call, convert it to a GIF, and drag-and-drop it here! Add a couple of screenshots too.)*
-
 ## 🛠️ Tech Stack
 * **Framework:** Flutter, Dart
 * **Backend as a Service:** Firebase (Auth, Firestore, Cloud Messaging)
